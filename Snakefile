@@ -1,7 +1,7 @@
 
 rule all:
     input:
-        "top_feats.npy"
+        "results.txt"
 
 rule data:
     output:
@@ -36,6 +36,6 @@ rule models:
         "data_sets/x_test.npy",
         "data_sets/y_test.npy"
     output:
-        "top_feats.npy"
+        "results.txt"
     shell:
-        "python models.py XGB"
+        "python models.py XGB > results.txt"

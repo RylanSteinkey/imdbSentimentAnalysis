@@ -50,7 +50,7 @@ if __name__ == "__main__":
     # At this point all_words should be a set of all words seen
     num_words = len(all_words)
 
-    words_matrix = np.zeros((100,num_words), dtype='uint8')
+    words_matrix = np.zeros((1000,num_words), dtype='uint8')
 
     for j, review in enumerate(data_df.values):
         # Remove all non alphanumeric charecters

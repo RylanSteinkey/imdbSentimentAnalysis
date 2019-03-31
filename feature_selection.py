@@ -21,19 +21,22 @@ data_df = pd.read_csv('data.csv')
 
 words_matrix = words_df.values
 
-x_train = words_matrix[0:50]  # first 50 are train
-x_test = words_matrix[50:100] # last  50 are test
+x_train = words_matrix[0:500]  # first 500 are train
+x_test = words_matrix[500:1000] # last  500 are test
 
-y_train = np.zeros((50))
-y_train[25:50] = 1
+y_train = np.zeros((500))
+y_train[250:500] = 1
 y_test = y_train
 
-assert(np.sum(y_train)==25 and np.sum(y_test)==25)
+assert(np.sum(y_train)==250 and np.sum(y_test)==250)
 
 # now we have x_train, x_test, y_train, y_test we can do feature selection
 
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.feature_selection import SelectKBest, f_classif
+
+
+feats = np.asarray(list(words_df.columns.values)).reshape(1,-1)
 
 # first we make a feature selection object
 feat_select_object = SelectKBest(f_classif, k=num_feats)
@@ -44,9 +47,14 @@ x_train = feat_select_object.fit_transform(x_train, y_train)
 # now we reduce the x_test to the same features as x_train, note that the feat_select_object never saw the testing set when choosing what features to keep
 x_test = feat_select_object.transform(x_test)
 
+# we also want to keep track of which words the features are
+feats = feat_select_object.transform(feats)
+
 # now save everything
 
 np.save('data_sets/x_train.npy', x_train)
 np.save('data_sets/y_train.npy', y_train)
 np.save('data_sets/x_test.npy', x_test)
 np.save('data_sets/y_test.npy', y_test)
+
+np.save('data_sets/feats.npy', feats[0])

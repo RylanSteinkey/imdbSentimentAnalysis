@@ -35,3 +35,14 @@ if __name__ =='__main__':
         # compare predictions to actual classes (y_test)
         accuracy = accuracy_score(y_test, y_pred)
         print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+        # now get importance of each word
+        importances = model.feature_importances_
+        feats = np.load('data_sets/feats.npy')
+
+        for i in range(len(importances)):
+            top_index = np.argmax(importances)
+            if(importances[top_index]==0):
+                break
+            print(feats[top_index], importances[top_index])
+            importances[top_index] = 0
