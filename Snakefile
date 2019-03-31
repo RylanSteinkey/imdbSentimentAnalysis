@@ -2,6 +2,7 @@
 rule all:
     input:
         "top_feats.npy"
+
 rule data:
     output:
         "data.csv"
@@ -12,28 +13,28 @@ rule feat_builder:
     input:
         "data.csv"
     output:
-        "words.pd"
+        "words.df"
     shell:
         "python feature_builder.py"
 
 rule feat_select:
     input:
         "data.csv",
-        "words.pd"
+        "words.df"
     output:
-        "x_train.npy",
-        "y_train.npy",
-        "x_test.npy",
-        "y_test.npy"
+        "data_sets/x_train.npy",
+        "data_sets/y_train.npy",
+        "data_sets/x_test.npy",
+        "data_sets/y_test.npy"
     shell:
-        "python feature_builder.py"
+        "python feature_selection.py"
 
 rule models:
     input:
-        "x_train.npy",
-        "y_train.npy",
-        "x_test.npy",
-        "y_test.npy"
+        "data_sets/x_train.npy",
+        "data_sets/y_train.npy",
+        "data_sets/x_test.npy",
+        "data_sets/y_test.npy"
     output:
         "top_feats.npy"
     shell:
