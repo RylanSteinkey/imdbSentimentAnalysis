@@ -12,7 +12,7 @@ import os, sys
 
 if __name__ == "__main__":
 
-    data = np.ndarray((50000,4),dtype='object')
+    data = np.ndarray((100,4),dtype='object')
 
     counter = 0
     for split in ['train', 'test']:

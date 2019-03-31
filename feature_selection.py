@@ -19,54 +19,16 @@ num_feats = 1000
 words_df = pd.read_pickle('words.df')
 data_df = pd.read_csv('data.csv')
 
-all_file_names = data_df['file_name']
+words_matrix = words_df.values
 
-# split file names into positive and negative
-positive = np.hstack((all_file_names[0:12500],all_file_names[25000:37500]))
-#negative = np.hstack((all_file_names[12500:25000],all_file_names[37500:50000]))
+x_train = words_matrix[0:50]  # first 50 are train
+x_test = words_matrix[50:100] # last  50 are test
 
-# split file names into train and test
-train = np.hstack((all_file_names[0:25000]))
+y_train = np.zeros((50))
+y_train[25:50] = 1
+y_test = y_train
 
-train_mask = np.zeros(50000)
-pos_mask = np.zeros(50000)
- 
-# go through each sample in words_df and label which ones are training
-for i, review in enumerate(words_df.index.tolist()):
-    if review in train:
-        train_mask[i]=1
-
-# split data into train and test
-train_mask = [i==1 for i in train_mask]
-
-train_data = words_df.values[train_mask]
-train_names = all_file_names[train_mask]
-
-test_mask = [i=='false' for i in train_mask]
-
-test_data = words_df.values[test_mask]
-test_names = all_file_names[test_mask]
-
-# so now we have the test data (x_test) and training data (x_train) we need the positive/negative labels
-
-print(len(train_names))
-"""
-THIS IS WHERE THE SCRIPT FAILS
-train names should be 25000 elements long but its actually ~32,000
-causes index error on next loop
-"""
-sys.exit()
-y_train = np.zeros(25000)
-for i, name in enumerate(train_names):
-    if name in positive:
-        y_train[i]=1
-y_test = np.zeros(25000)
-for i, name in enumerate(test_names):
-    if name in positive:
-        y_test[i]=1
-
-x_test = test_data
-x_train = train_data
+assert(np.sum(y_train)==25 and np.sum(y_test)==25)
 
 # now we have x_train, x_test, y_train, y_test we can do feature selection
 

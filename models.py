@@ -9,22 +9,29 @@ output: predictions, top_feats.npy
 import os, sys
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score
+import numpy as np
 
 # this script is untested, pending a working feature_selection
 
 if __name__ =='__main__':
-    np.save('data_sets/x_train.npy', x_train)
-    np.save('data_sets/y_train.npy', y_train)
-    np.save('data_sets/x_test.npy', x_test)
-    np.save('data_sets/y_test.npy', y_test)
+    # x_train is the training data (words counts)
+    x_train = np.load('data_sets/x_train.npy')
+    # y_train is the pos/neg labelling of the x_train
+    y_train = np.load('data_sets/y_train.npy')
+    x_test  = np.load('data_sets/x_test.npy')
+    y_test  = np.load('data_sets/y_test.npy')
 
     model_type = sys.argv[1]
 
     if(model_type=='XGB'):
+        # declare model
         model =  XGBClassifier(learning_rate=1, n_estimators=10, objective='binary:logistic', silent=True, nthreads=8)
-	model.fit(x_train, y_train)
+        # train model
+        model.fit(x_train, y_train)
+        # make prediction on testing data
         y_pred = model.predict(x_test)
+        # round to nearest class (xgboost thing)
         y_pred = [round(value) for value in y_pred]
-	
-        accuracy = accuracy_score(y_test, predictions)
+        # compare predictions to actual classes (y_test)
+        accuracy = accuracy_score(y_test, y_pred)
         print("Accuracy: %.2f%%" % (accuracy * 100.0))
