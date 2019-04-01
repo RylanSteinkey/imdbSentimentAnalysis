@@ -23,7 +23,7 @@ if __name__ =='__main__':
 
     model_type = sys.argv[1]
 
-    if(model_type=='XGB'):
+    if(model_type == 'XGB'):
         # declare model
         model =  XGBClassifier(learning_rate=1, n_estimators=10, objective='binary:logistic', silent=True, nthreads=8)
         # train model
@@ -46,3 +46,19 @@ if __name__ =='__main__':
                 break
             print(feats[top_index], importances[top_index])
             importances[top_index] = 0
+
+    if(model_type == 'SVM'):
+        from sklearn import svm
+        model = svm.SVC()
+        model.fit(x_train, y_train)
+        y_pred = model.predict(x_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+    if(model_type == 'MNB'):
+        from sklearn.naive_bayes import MultinomialNB
+        model = MultinomialNB()
+        model.fit(x_train, y_train)
+        y_pred = model.predict(x_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        print("Accuracy: %.2f%%" % (accuracy * 100.0))
