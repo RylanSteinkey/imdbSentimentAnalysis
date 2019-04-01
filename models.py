@@ -62,3 +62,27 @@ if __name__ =='__main__':
         y_pred = model.predict(x_test)
         accuracy = accuracy_score(y_test, y_pred)
         print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+    if(model_type== 'ANN'):
+        from keras.layers.core import Dense, Dropout, Activation
+        from keras.models import Sequential
+        from keras.callbacks import EarlyStopping
+
+        num_feats = len(x_train[0])
+        model = Sequential()
+
+        early_stop = EarlyStopping(monitor='loss', patience=0, verbose=1, min_delta=0.005, mode='auto')
+
+        model.add(Dense(num_feats,activation='relu',input_dim=(num_feats)))
+        model.add(Dropout(0.50))
+        model.add(Dense(500, activation='relu', kernel_initializer='uniform'))
+        model.add(Dropout(0.50))
+        model.add(Dense(2, kernel_initializer='uniform', activation='softmax'))
+
+        model.compile(loss='sparse_categorical_crossentropy', metrics=['accuracy'], optimizer='adam')
+
+        model.fit(x_train, y_train, epochs=25, verbose=1, callbacks = [early_stop])
+
+        y_pred = model.predict_classes(x_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        print("Accuracy: %.2f%%" % (accuracy * 100.0))
