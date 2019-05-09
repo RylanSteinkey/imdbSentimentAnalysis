@@ -14,6 +14,9 @@ Machine learning methods to predict the positivity/sentiment of an IMDb movie re
 
 After the above has successfully run, you can execute other models by running models.py as:
 `python models.py XGB` -- XGBoost                    (68.2% accuracy with 1000 samples)
+
 `python models.py SVM` -- Support Vector Machine     (68.4% accuracy with 1000 samples)
+
 `python models.py MNB` -- Multinomial Naive Bayes    (68.4% accuracy with 1000 samples)
+
 `python models.py ANN` -- Artificial Neural Network  (78.8% accuracy with 1000 samples)
