@@ -35,8 +35,6 @@ if __name__ == "__main__":
     common = set(stopwords.words('english'))
 
     for review in data_df.values:
-        if(review[0]%5000==0): # Progress counter
-            print(review[0])
         # Remove all non alphanumeric charecters
         edited_review = re.sub(r'[^\w]', ' ', review[4])
 
@@ -52,11 +50,9 @@ if __name__ == "__main__":
     # At this point all_words should be a set of all words seen
     num_words = len(all_words)
 
-    words_matrix = np.zeros((50000,num_words), dtype='uint8')
+    words_matrix = np.zeros((1000,num_words), dtype='uint8')
 
     for j, review in enumerate(data_df.values):
-        if(review[0]%1000==0): # Progress counter
-            print(review[0])
         # Remove all non alphanumeric charecters
         edited_review = re.sub(r'[^\w]', ' ', review[4])
 
