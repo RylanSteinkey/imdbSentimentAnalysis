@@ -1,4 +1,4 @@
-# AMR_Predictor
+# IMDb Sentiment Analysis
 Machine learning methods to predict the positivity/sentiment of an IMDb movie review.
 
 ## Setup
